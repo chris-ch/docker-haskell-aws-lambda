@@ -15,7 +15,10 @@ RUN \
         gcc \
         g++ \
         gmp-devel \
+        gmp-static \
+        glibc-static \
         zlib-devel \
+        zlib-static \
         vim \
         sudo \
         git

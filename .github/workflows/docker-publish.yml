@@ -6,8 +6,6 @@ name: Docker
 # documentation.
 
 on:
-  schedule:
-    - cron: '33 23 * * *'
   push:
     # Publish server tags as releases.
     tags: [ 'v*.*.*' ]

@@ -21,6 +21,7 @@ RUN \
         zlib-static \
         vim \
         sudo \
+        jq \
         git
 
 RUN \

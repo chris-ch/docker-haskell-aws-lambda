@@ -47,7 +47,8 @@ RUN /usr/bin/curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" --o
 RUN /usr/bin/curl "https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip" --output "/tmp/terraform.zip" \
     && mkdir -p  /home/${USER_NAME}/.local/bin \
     && unzip /tmp/terraform.zip -d /home/${USER_NAME}/.local/bin \
-    && chmod 755 /home/${USER_NAME}/.local/bin/terraform
+    && chmod 755 /home/${USER_NAME}/.local/bin/terraform \
+    && rm -f /tmp/terraform.zip
 
 # install GHC, cabal and stack
 RUN \

@@ -38,11 +38,16 @@ USER ${USER_NAME}
 
 WORKDIR /home/${USER_NAME}
 
-RUN /usr/bin/curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+RUN /usr/bin/curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" --output "awscliv2.zip" \
     && unzip awscliv2.zip \
     && sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update \
     && rm -fr awscliv2.zip \
     && rm -fr ./aws
+
+RUN /usr/bin/curl "https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip" --output "/tmp/terraform.zip" \
+    && mkdir -p  /home/${USER_NAME}/.local/bin \
+    && unzip /tmp/terraform.zip -d /home/${USER_NAME}/.local/bin \
+    && chmod 755 /home/${USER_NAME}/.local/bin/terraform
 
 # install GHC, cabal and stack
 RUN \

@@ -9,13 +9,6 @@ ARG USER_NAME=haskell
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
-# curl-minimal is too restrictive for data integration
-RUN  \
-    dnf install --assumeyes libssh libpsl libbrotli \
-    && dnf download curl libcurl \
-    && rpm -Uvh --nodeps --replacefiles "*curl*$( uname -i ).rpm" \
-    && dnf remove -y libcurl-minimal curl-minimal
-
 RUN \
     dnf install --assumeyes findutils \
         cmake \
@@ -40,6 +33,13 @@ RUN /usr/sbin/groupadd --gid ${USER_GID} ${USER_NAME} \
     && /usr/sbin/useradd --uid ${USER_UID} --gid ${USER_GID} --no-log-init --create-home -m ${USER_NAME} -s /usr/bin/bash \
     && /bin/echo ${USER_NAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER_NAME} \
     && chmod 0440 /etc/sudoers.d/${USER_NAME}
+
+# curl-minimal is too restrictive for data integration
+RUN  \
+    dnf install --assumeyes libssh libpsl libbrotli \
+    && dnf download curl libcurl \
+    && rpm -Uvh --nodeps --replacefiles "*curl*$( uname -i ).rpm" \
+    && dnf remove -y libcurl-minimal curl-minimal
 
 USER ${USER_NAME}
 

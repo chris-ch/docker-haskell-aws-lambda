@@ -15,6 +15,7 @@ RUN \
         gcc \
         g++ \
         gmp-devel \
+        libcurl-devel \
         gmp-static \
         glibc-static \
         zlib-devel \

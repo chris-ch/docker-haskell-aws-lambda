@@ -39,7 +39,8 @@ RUN  \
     dnf install --assumeyes libssh libpsl libbrotli \
     && dnf download curl libcurl \
     && rpm -Uvh --nodeps --replacefiles "*curl*$( uname -i ).rpm" \
-    && dnf remove -y libcurl-minimal curl-minimal
+    && dnf remove --assumeyes libcurl-minimal curl-minimal \
+    && dnf install --assumeyes libcurl-devel
 
 USER ${USER_NAME}
 

@@ -9,13 +9,19 @@ ARG USER_NAME=haskell
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
+# curl-minimal is too restrictive for data integration
+RUN  \
+    microdnf install --assumeyes libssh libpsl libbrotli \
+    && microdnf download curl libcurl \
+    && rpm -Uvh --nodeps --replacefiles "*curl*$( uname -i ).rpm" \
+    && microdnf remove -y libcurl-minimal curl-minimal
+
 RUN \
-    dnf install --assumeyes findutils \
+    microdnf install --assumeyes findutils \
         cmake \
         gcc \
         g++ \
         gmp-devel \
-        libcurl-devel \
         gmp-static \
         glibc-static \
         zlib-devel \
@@ -29,7 +35,7 @@ RUN \
     /usr/bin/curl ${GHCUP_DWN_URL} > /usr/bin/ghcup && \
     chmod +x /usr/bin/ghcup
 
-# Creating the workspace user
+# creating the workspace user
 RUN /usr/sbin/groupadd --gid ${USER_GID} ${USER_NAME} \
     && /usr/sbin/useradd --uid ${USER_UID} --gid ${USER_GID} --no-log-init --create-home -m ${USER_NAME} -s /usr/bin/bash \
     && /bin/echo ${USER_NAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER_NAME} \
@@ -51,7 +57,7 @@ RUN /usr/bin/curl "https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.
     && chmod 755 /home/${USER_NAME}/.local/bin/terraform \
     && rm -f /tmp/terraform.zip
 
-# install GHC, cabal and stack
+# installing GHC, cabal and stack (better not use stack though)
 RUN \
     ghcup -v install ghc --force ${VERSION_GHC} && \
     ghcup -v install cabal --force ${VERSION_CABAL} && \

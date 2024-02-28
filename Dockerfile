@@ -11,13 +11,13 @@ ARG USER_GID=$USER_UID
 
 # curl-minimal is too restrictive for data integration
 RUN  \
-    microdnf install --assumeyes libssh libpsl libbrotli \
-    && microdnf download curl libcurl \
+    dnf install --assumeyes libssh libpsl libbrotli \
+    && dnf download curl libcurl \
     && rpm -Uvh --nodeps --replacefiles "*curl*$( uname -i ).rpm" \
-    && microdnf remove -y libcurl-minimal curl-minimal
+    && dnf remove -y libcurl-minimal curl-minimal
 
 RUN \
-    microdnf install --assumeyes findutils \
+    dnf install --assumeyes findutils \
         cmake \
         gcc \
         g++ \

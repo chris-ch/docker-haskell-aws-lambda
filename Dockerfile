@@ -19,6 +19,8 @@ RUN \
         glibc-static \
         zlib-devel \
         zlib-static \
+        nettle \
+        nettle-devel \
         gpgme-devel \
         vim \
         sudo \

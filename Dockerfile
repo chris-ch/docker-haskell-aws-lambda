@@ -19,6 +19,7 @@ RUN \
         glibc-static \
         zlib-devel \
         zlib-static \
+        gpgme-devel \
         vim \
         sudo \
         jq \

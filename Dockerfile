@@ -45,6 +45,9 @@ RUN  \
     && dnf remove --assumeyes libcurl-minimal curl-minimal \
     && dnf install --assumeyes libcurl-devel
 
+RUN /usr/bin/curl -L -J "https://packages.opentofu.org/opentofu/tofu/packages/rpm_any/rpm_any/tofu-1.9.0-1.x86_64.rpm/download.rpm?distro_version_id=227" --output "opentofu.rpm" \
+    && rpm -ivh opentofu.rpm
+
 USER ${USER_NAME}
 
 WORKDIR /home/${USER_NAME}
@@ -54,9 +57,6 @@ RUN /usr/bin/curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" --o
     && sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update \
     && rm -fr awscliv2.zip \
     && rm -fr ./aws
-
-RUN /usr/bin/curl -L -J "https://packages.opentofu.org/opentofu/tofu/packages/rpm_any/rpm_any/tofu-1.9.0-1.x86_64.rpm/download.rpm?distro_version_id=227" --output "opentofu.rpm" \
-    && rpm -ivh opentofu.rpm
 
 # installing GHC, cabal and stack (better not use stack though)
 RUN \

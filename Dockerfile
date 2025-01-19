@@ -55,11 +55,8 @@ RUN /usr/bin/curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" --o
     && rm -fr awscliv2.zip \
     && rm -fr ./aws
 
-RUN /usr/bin/curl "https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip" --output "/tmp/terraform.zip" \
-    && mkdir -p  /home/${USER_NAME}/.local/bin \
-    && unzip /tmp/terraform.zip -d /home/${USER_NAME}/.local/bin \
-    && chmod 755 /home/${USER_NAME}/.local/bin/terraform \
-    && rm -f /tmp/terraform.zip
+RUN /usr/bin/curl -L -O -J "https://packages.opentofu.org/opentofu/tofu/packages/rpm_any/rpm_any/tofu-1.9.0-1.x86_64.rpm/download.rpm?distro_version_id=227"
+RUN rpm -ivh  tofu-1.9.0-1.x86_64.rpm
 
 # installing GHC, cabal and stack (better not use stack though)
 RUN \

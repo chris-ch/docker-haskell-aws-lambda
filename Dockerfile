@@ -1,8 +1,10 @@
 FROM public.ecr.aws/lambda/provided:al2023
 
 ARG GHCUP_DWN_URL=https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup
-ARG VERSION_GHC=9.4.8
+ARG VERSION_GHC=9.6.6
 ARG VERSION_CABAL=latest
+
+# Stack still needed unfortunately for HLS
 ARG VERSION_STACK=latest
 
 ARG USER_NAME=haskell

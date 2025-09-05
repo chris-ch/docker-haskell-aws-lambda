@@ -47,15 +47,15 @@ RUN  \
 RUN /usr/bin/curl -L -J "https://packages.opentofu.org/opentofu/tofu/packages/rpm_any/rpm_any/tofu-1.10.6-1.x86_64.rpm/download.rpm?distro_version_id=227" --output "opentofu.rpm" \
     && rpm -ivh opentofu.rpm
 
+RUN /usr/bin/curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" --output "awscliv2.zip" \
+    && unzip awscliv2.zip \
+    && ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update \
+    && rm -fr awscliv2.zip \
+    && rm -fr ./aws
+
 USER ${USER_NAME}
 
 WORKDIR /home/${USER_NAME}
-
-RUN /usr/bin/curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" --output "awscliv2.zip" \
-    && unzip awscliv2.zip \
-    && sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update \
-    && rm -fr awscliv2.zip \
-    && rm -fr ./aws
 
 # installing GHC, cabal and stack (better not use stack though)
 RUN \

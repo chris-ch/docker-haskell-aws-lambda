@@ -1,9 +1,8 @@
 FROM public.ecr.aws/lambda/provided:al2023
 
 ARG GHCUP_DWN_URL=https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup
-ARG VERSION_GHC=9.4.8
-ARG VERSION_CABAL=latest
-ARG VERSION_STACK=latest
+ARG VERSION_GHC=9.6.7
+ARG VERSION_CABAL=3.12.1.0
 
 ARG USER_NAME=haskell
 ARG USER_UID=1000
@@ -45,7 +44,7 @@ RUN  \
     && dnf remove --assumeyes libcurl-minimal curl-minimal \
     && dnf install --assumeyes libcurl-devel
 
-RUN /usr/bin/curl -L -J "https://packages.opentofu.org/opentofu/tofu/packages/rpm_any/rpm_any/tofu-1.9.0-1.x86_64.rpm/download.rpm?distro_version_id=227" --output "opentofu.rpm" \
+RUN /usr/bin/curl -L -J "https://packages.opentofu.org/opentofu/tofu/packages/rpm_any/rpm_any/tofu-1.10.6-1.x86_64.rpm/download.rpm?distro_version_id=227" --output "opentofu.rpm" \
     && rpm -ivh opentofu.rpm
 
 USER ${USER_NAME}
@@ -62,7 +61,6 @@ RUN /usr/bin/curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" --o
 RUN \
     ghcup -v install ghc --force ${VERSION_GHC} && \
     ghcup -v install cabal --force ${VERSION_CABAL} && \
-    ghcup -v install stack --force ${VERSION_STACK} && \
     ghcup set ghc ${VERSION_GHC} && \
     ghcup install hls
 
